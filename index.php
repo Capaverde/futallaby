@@ -163,10 +163,34 @@ function updatelog($resno=0){
       $com = auto_link($com);
       //$com = preg_replace("/(^|>)(&gt;[^<]*)/i", "\\1<font color=".RE_COL.">\\2</font>", $com);
       $com = preg_replace("/(^|>)(&gt;[^<]*)/i", "\\1<div class=\"unkfunc\">\\2</div>", $com);
+      
       // Main creation
       $dat.="<table><tr><td class=\"doubledash\">&gt;&gt;</td><td class=\"reply\">\n";
       $dat.="<input type=\"checkbox\" name=\"$no\" value=\"delete\" /><span class=\"replytitle\">$sub</span> \n";
       $dat.="Name <span class=\"commentpostername\">$name</span> $now No.$no &nbsp; \n";
+
+	// Picture file name
+      $img = $path.$tim.$ext;
+      $src = IMG_DIR.$tim.$ext;
+      // img tag creation
+      $imgsrc = "";
+      if($ext){
+        $size = $fsize;//file size displayed in alt text
+        if($w && $h){//when there is size...
+          if(@is_file(THUMB_DIR.$tim.'s.jpg')){
+            $imgsrc = "    <span class=\"thumbnailmsg\">".S_THUMB."</span><br /><a href=\"".$src."\" target=\"_blank\"><img src=\"".THUMB_DIR.$tim.'s.jpg'.
+        "\" border=\"0\" align=\"left\" width=\"$w\" height=\"$h\" hspace=\"20\" alt=\"".$size." B\" /></a><br />";
+          }else{
+            $imgsrc = "<a href=\"".$src."\" target=\"_blank\"><img src=\"".$src.
+        "\" border=\"0\" align=\"left\" width=\"$w\" height=\"$h\" hspace=\"20\" alt=\"".$size." B\" /></a><br />";
+          }
+        }else{
+          $imgsrc = "<a href=\"".$src."\" target=\"_blank\"><img src=\"".$src.
+        "\" border=\"0\" align=\"left\" hspace=\"20\" alt=\"".$size." B\" /></a><br />";
+        }
+        $dat.="<span class=\"filesize\">".S_PICNAME."<a href=\"$src\" target=\"_blank\">$tim$ext</a>-($size B)</span><br /> $imgsrc";
+      }
+
       $dat.="<blockquote>$com</blockquote>";
       $dat.="</td></tr></table>\n";
     }
@@ -302,11 +326,11 @@ $dat.='<table>
 <input type="submit" value="'.S_SUBMIT.'" /></td></tr>
 <tr><td class="postblock" align="left">'.S_COMMENT.'</td><td align="left"><textarea name="com" cols="48" rows="4"></textarea></td></tr>
 ';
-if(!$resno){
+//if(!$resno){
 $dat.='<tr><td class="postblock" align="left">'.S_UPLOADFILE.'</td>
 <td><input type="file" name="upfile" size="35" />
 [<label><input type="checkbox" name="textonly" value="on" />'.S_NOFILE.'</label>]</td></tr>
-';}
+';//}
 $dat.='<tr><td align="left" class="postblock" align="left">'.S_DELPASS.'</td><td align="left"><input type="password" name="pwd" size="8" maxlength="8" value="" />'.S_DELEXPL.'</td></tr>
 <tr><td colspan="2">
 <div align="left" class="rules">'.S_RULES.'</div></td></tr></table></form></div></div><hr />';
@@ -654,7 +678,7 @@ $rootqu.",".
 
 //thumbnails
 function thumb($path,$tim,$ext){
-  if(!function_exists("ImageCreate")||!function_exists("ImageCreateFromJPEG"))return;
+  if(!function_exists("ImageCreate")||!function_exists("ImageCreateFromJPEG")) { echo "imagecreate doesn't exist"; return; }
   $fname=$path.$tim.$ext;
   $thumb_dir = THUMB_DIR;     //thumbnail directory
   $width     = MAX_W;            //output width

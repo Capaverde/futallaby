@@ -18,8 +18,8 @@ define(MAX_H,  '250');			//Images exceeding this height will be thumbnailed
 define(PAGE_DEF, '5');			//Images per page
 define(LOG_MAX,  '500');		//Maximum number of entries
 //define(RE_COL, '789922');               //Color of replies (lines proceeded by greater than sign) (THIS IS DEPRECIATED IN 040103)
-define(PHP_SELF, 'index.php');	//Name of main script file
-define(PHP_SELF2, 'index.htm');	//Name of main htm file
+define(PHP_SELF, 'index.php');		//Name of main script file
+define(PHP_SELF2, 'index.htm');		//Name of main htm file
 define(PHP_EXT, '.htm');		//Extension used for board pages after first
 define(RENZOKU, '5');			//Seconds between posts (floodcheck)
 define(RENZOKU2, '10');		//Seconds between image posts (floodcheck)
